@@ -1,0 +1,1 @@
+pkg install erlang -y
