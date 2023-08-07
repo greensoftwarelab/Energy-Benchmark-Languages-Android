@@ -1,0 +1,1 @@
+Used "fannkuch-redux PHP #2 program" once it can't use shmop.so.

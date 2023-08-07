@@ -1,4 +1,4 @@
 compile:
 
 run:
-	python binarytrees.py ${NLEVELS}
+	python -OO binarytrees.py ${NLEVELS}
