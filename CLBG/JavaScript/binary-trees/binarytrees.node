@@ -1,50 +1,87 @@
 /* The Computer Language Benchmarks Game
-   http://benchmarksgame.alioth.debian.org/
-   contributed by Isaac Gouy 
-   *reset* 
+   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+
+   contributed by Léo Sarrazin
+   multi thread by Andrey Filatkin
 */
 
-function TreeNode(left,right,item){
-   this.left = left;
-   this.right = right;
+const { Worker, isMainThread, parentPort, workerData } = require('worker_threads');
+
+if (isMainThread) {
+    mainThread();
+} else {
+    workerThread(workerData);
 }
 
-TreeNode.prototype.itemCheck = function(){
-   if (this.left==null) return 1;
-   else return 1 + this.left.itemCheck() + this.right.itemCheck();
+async function mainThread() {
+    const maxDepth = Math.max(6, parseInt(process.argv[2]));
+
+    const stretchDepth = maxDepth + 1;
+    const check = itemCheck(bottomUpTree(stretchDepth));
+    console.log(`stretch tree of depth ${stretchDepth}\t check: ${check}`);
+
+    const longLivedTree = bottomUpTree(maxDepth);
+
+    const tasks = [];
+    for (let depth = 4; depth <= maxDepth; depth += 2) {
+        const iterations = 1 << maxDepth - depth + 4;
+        tasks.push({iterations, depth});
+    }
+
+    const results = await runTasks(tasks);
+    for (const result of results) {
+        console.log(result);
+    }
+
+    console.log(`long lived tree of depth ${maxDepth}\t check: ${itemCheck(longLivedTree)}`);
 }
 
-function bottomUpTree(depth){
-   if (depth>0){
-      return new TreeNode(
-          bottomUpTree(depth-1)
-         ,bottomUpTree(depth-1)
-      );
-   }
-   else {
-      return new TreeNode(null,null);
-   }
+function workerThread({iterations, depth}) {
+    parentPort.postMessage({
+        result: work(iterations, depth)
+    });
 }
 
+function runTasks(tasks) {
+    return new Promise(resolve => {
+        const results = [];
+        let tasksSize = tasks.length;
 
-var minDepth = 4;
-var n = +process.argv[2];
-var maxDepth = Math.max(minDepth + 2, n);
-var stretchDepth = maxDepth + 1;
+        for (let i = 0; i < tasks.length; i++) {
+            const worker = new Worker(__filename, {workerData: tasks[i]});
 
-var check = bottomUpTree(stretchDepth).itemCheck();
-console.log("stretch tree of depth " + stretchDepth + "\t check: " + check);
-
-var longLivedTree = bottomUpTree(maxDepth);
-for (var depth=minDepth; depth<=maxDepth; depth+=2){
-   var iterations = 1 << (maxDepth - depth + minDepth);
-
-   check = 0;
-   for (var i=1; i<=iterations; i++){
-      check += bottomUpTree(depth).itemCheck();
-   }
-   console.log(iterations + "\t trees of depth " + depth + "\t check: " + check);
+            worker.on('message', message => {
+                results[i] = message.result;
+                tasksSize--;
+                if (tasksSize === 0) {
+                    resolve(results);
+                }
+            });
+        }
+    });
 }
 
-console.log("long lived tree of depth " + maxDepth + "\t check: " 
-   + longLivedTree.itemCheck());
+function work(iterations, depth) {
+    let check = 0;
+    for (let i = 0; i < iterations; i++) {
+        check += itemCheck(bottomUpTree(depth));
+    }
+    return `${iterations}\t trees of depth ${depth}\t check: ${check}`;
+}
+
+function TreeNode(left, right) {
+    return {left, right};
+}
+
+function itemCheck(node) {
+    if (node.left === null) {
+        return 1;
+    }
+    return 1 + itemCheck(node.left) + itemCheck(node.right);
+}
+
+function bottomUpTree(depth) {
+    return depth > 0
+        ? new TreeNode(bottomUpTree(depth - 1), bottomUpTree(depth - 1))
+        : new TreeNode(null, null);
+}

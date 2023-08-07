@@ -1,67 +1,52 @@
 --
 -- The Computer Language Benchmarks Game
--- http://benchmarksgame.alioth.debian.org/
+-- https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
 --
--- Contributed by Don Stewart
--- *reset*
+-- Contributed by Daniel Smith
 --
 
-import System.Environment
-import Data.Bits
-import Text.Printf
+import Data.Foldable (for_)
+import Data.Monoid ((<>))
+import System.Environment (getArgs)
 
---
--- an artificially strict tree. 
---
--- normally you would ensure the branches are lazy, but this benchmark
--- requires strict allocation.
---
-data Tree = Nil | Node !Int !Tree !Tree
-
-minN = 4
-
-io s n t = printf "%s of depth %d\t check: %d\n" s n t
-
+main :: IO ()
 main = do
-    n <- getArgs >>= readIO . head
-    let maxN     = max (minN + 2) n
-        stretchN = maxN + 1
+    n <- read . head <$> getArgs
 
-    -- stretch memory tree
-    let c = check (make 0 stretchN)
-    io "stretch tree" stretchN c
+    let stretchN = n + 1
+        stretchT = make stretchN
+    putStrLn . makeOutput "stretch tree" stretchN $ check stretchT
+    stretchT `seq` pure ()
 
-    -- allocate a long lived tree
-    let !long    = make 0 maxN
+    let longT = make n
+        longC = check longT
+    longC `seq` pure ()
 
-    -- allocate, walk, and deallocate many bottom-up binary trees
-    let vs = depth minN maxN
-    mapM_ (\((m,d,i)) -> io (show m ++ "\t trees") d i) vs
+    for_ [4, 6 .. n] $ \d -> do
+        let c = 16 * 2 ^ (n - d)
+        putStrLn . makeOutput (show c <> "\t trees") d $ sumT c d
 
-    -- confirm the the long-lived binary tree still exists
-    io "long lived tree" maxN (check long)
+    longT `seq` pure ()
+    putStrLn $ makeOutput "long lived tree" n longC
 
--- generate many trees
-depth :: Int -> Int -> [(Int,Int,Int)]
-depth d m
-    | d <= m    = (n,d,sumT d n 0) : depth (d+2) m
-    | otherwise = []
-  where n = 1 `shiftL` (m - d + minN)
+makeOutput :: String -> Int -> Int -> String
+makeOutput p n c = p <> " of depth " <> show n <> "\t check: " <> show c
 
--- allocate and check lots of trees
-sumT :: Int -> Int -> Int -> Int
-sumT d 0 t = t
-sumT  d i t = sumT d (i-1) (t + a)
-  where a = check (make 0 d)
+data Tree = Nil | Node Tree Tree
 
+sumT :: Int -> Int -> Int
+sumT = go 0
+  where
+    go s 0 _ = s
+    go s c d = s' `seq` t `seq` go s' (c - 1) d
+      where
+        t = make d
+        s' = s + check t
 
--- traverse the tree, counting up the nodes
 check :: Tree -> Int
-check Nil          = 0
-check (Node i l r) = 1 + check l + check r
+check Nil = 0
+check (Node l r) = 1 + check l + check r
 
--- build a tree
-make :: Int -> Int -> Tree
-make i 0 = Node i Nil Nil
-make i d = Node i (make d d2) (make d2 d2)
-  where d2 = d-1
+make :: Int -> Tree
+make 0 = Node Nil Nil
+make n = Node (make $ n - 1) (make $ n - 1)

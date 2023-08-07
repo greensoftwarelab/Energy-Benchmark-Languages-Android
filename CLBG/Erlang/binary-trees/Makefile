@@ -1,6 +1,9 @@
+FLAGS = +"{hipe, [o2]}"
+RUN_FLAGS = -smp enable -noshell -run
+
 compile:
 	cp binarytrees.hipe-2.hipe binarytrees.erl
-	erlc +native +"{hipe, [o3]}" binarytrees.erl
+	erlc ${FLAGS} binarytrees.erl
 
 run:
-	erl -smp enable -noshell -run  binarytrees main ${NLEVELS}
+	erl ${RUN_FLAGS} binarytrees main ${NLEVELS}

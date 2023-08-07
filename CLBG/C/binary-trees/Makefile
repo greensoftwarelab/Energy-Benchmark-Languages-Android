@@ -1,4 +1,6 @@
+FLAGS = -O2 -fopenmp=libomp -I/data/data/com.termux/files/usr/include/apr-1 -lapr-1 -lm
+
 compile:
-	gcc -pipe -Wall -O3 -fomit-frame-pointer -march=native -fopenmp=libomp -D_FILE_OFFSET_BITS=64 -I/data/data/com.termux/files/usr/include/apr-1 binarytrees.gcc-3.c -o binarytrees.gcc-3.gcc_run -lapr-1 -lm	
+	gcc $(FLAGS) -o binarytrees.gcc-3.gcc_run binarytrees.gcc-3.c	
 run:
 	./binarytrees.gcc-3.gcc_run $(NLEVELS)

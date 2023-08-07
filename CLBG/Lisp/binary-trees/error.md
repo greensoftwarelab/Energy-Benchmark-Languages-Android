@@ -1,1 +1,1 @@
-"The function SAVE-LISP-AND-DIE is undefined"
+"The function PURIFY is undefined."

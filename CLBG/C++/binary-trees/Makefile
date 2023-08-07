@@ -1,5 +1,8 @@
+FLAGS = -O2 -fopenmp=libomp -I/data/data/com.termux/files/usr/include/apr-1 -lapr-1 -lm
+
 compile:
-	g++ -c -pipe -O3 -fomit-frame-pointer -march=native -std=c++14 -fopenmp=libomp -I/data/data/com.termux/files/usr/include/apr-1 binarytrees.gpp-9.c++ -o binarytrees.gpp-9.c++.o && g++ binarytrees.gpp-9.c++.o -o binarytrees.gpp-9.gpp_run -fopenmp=libomp -lapr-1 
+	cp binarytrees.gpp-9.c++ binarytrees.gpp-9.cpp
+	g++ $(FLAGS) -o binarytrees.gpp-9.gpp_run binarytrees.gpp-9.cpp
 
 run:
 	./binarytrees.gpp-9.gpp_run $(NLEVELS)

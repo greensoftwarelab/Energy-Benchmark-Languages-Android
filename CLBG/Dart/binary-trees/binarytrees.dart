@@ -1,55 +1,50 @@
-/* The Computer Language Benchmarks game
-   http://benchmarksgame.alioth.debian.org/
+/* The Computer Language Benchmarks Game
+   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
 
-   contributed by Jos Hirth, transliterated from Jarkko Miettinen's Java program
-   *reset*
+   transliterated from Andrey Filatkin's Node #6 program by Isaac Gouy
 */
 
-final int minDepth = 4;
+void main(List<String> args) {
+  final maxDepth = (args.length > 0) ? int.parse(args[0]) : 6;
 
-void main(args){
-  int n = args.length > 0 ? int.parse(args[0]) : 0;
-
-  int maxDepth = (minDepth + 2 > n) ? minDepth + 2 : n;
-  int stretchDepth = maxDepth + 1;
-
-  int check = (TreeNode.bottomUpTree(stretchDepth)).itemCheck();
+  final stretchDepth = maxDepth + 1;
+  final check = itemCheck(bottomUpTree(stretchDepth));
   print("stretch tree of depth $stretchDepth\t check: $check");
 
-  TreeNode longLivedTree = TreeNode.bottomUpTree(maxDepth);
+  final longLivedTree = bottomUpTree(maxDepth);
 
-  for (int depth = minDepth; depth <= maxDepth; depth += 2){
-    int iterations = 1 << (maxDepth - depth + minDepth);
-    check = 0;
-
-    for (int i = 1; i <= iterations; i++){
-      check += (TreeNode.bottomUpTree(depth)).itemCheck();
-    }
-    print("${iterations}\t trees of depth $depth\t check: $check");
+  for (var depth = 4; depth <= maxDepth; depth += 2) {
+    final iterations = 1 << maxDepth - depth + 4;
+    work(iterations, depth);
   }
-  print("long lived tree of depth $maxDepth\t check: ${longLivedTree.itemCheck()}");
+
+  print(
+      "long lived tree of depth $maxDepth\t check: ${itemCheck(longLivedTree)}");
 }
 
-
-class TreeNode{
-  TreeNode left, right;
-
-  TreeNode([this.left, this.right]);
-
-  static TreeNode bottomUpTree(int depth){
-    if (depth > 0){
-      return new TreeNode(
-        bottomUpTree(depth - 1),
-        bottomUpTree(depth - 1)
-      );
-    }
-    return new TreeNode();
+void work(int iterations, int depth) {
+  var check = 0;
+  for (int i = 0; i < iterations; i++) {
+    check += itemCheck(bottomUpTree(depth));
   }
+  print("${iterations}\t trees of depth $depth\t check: $check");
+}
 
-  int itemCheck(){
-    if (left == null){
-      return 1;
-    }
-    return 1 + left.itemCheck() + right.itemCheck();
+class TreeNode {
+  TreeNode? left, right;
+  TreeNode(this.left, this.right);
+}
+
+int itemCheck(TreeNode? node) {
+  if (node == null || node.left == null) {
+    return 1;
+  } else {
+    return 1 + itemCheck(node.left) + itemCheck(node.right);
   }
+}
+
+TreeNode bottomUpTree(int depth) {
+  return depth > 0
+      ? TreeNode(bottomUpTree(depth - 1), bottomUpTree(depth - 1))
+      : TreeNode(null, null);
 }

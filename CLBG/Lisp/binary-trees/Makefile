@@ -1,5 +1,5 @@
 compile:
-	ecl --load binarytrees.lisp --eval "(save-lisp-and-die \"binarytrees.core\" :purify t :toplevel (lambda () (main) (quit)))"
+	ecl -norc -load binarytrees.lisp --eval '(:purify t :toplevel(lambda () (main 21) (ext:quit)))'
 
 run:
 	ecl --noinform --core binarytrees.core ${NLEVELS}
