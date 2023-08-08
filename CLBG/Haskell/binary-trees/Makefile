@@ -1,8 +1,5 @@
-FLAGS = --make -O2 -threaded
-
 compile:
-	cp binarytrees.ghc binarytrees.hs
-	ghc ${FLAGS} binarytrees.hs -o binarytrees.ghc_run
+	cabal build
 
 run:
-	./binarytrees.ghc_run ${NLEVELS}
+	cabal run binary-trees -- ${NLEVELS}

@@ -5,8 +5,7 @@
 %%
 %% Contributed by : Alkis Gotovos and Maria Christakis, 13 Nov 2010
 
--module(fannkuch-redux).
-
+-module(fannkuchredux).
 -export([main/1]).
 
 main([Arg]) ->

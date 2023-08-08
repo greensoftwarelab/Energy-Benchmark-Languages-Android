@@ -1,5 +1,5 @@
 compile:
 	cargo build --release
-	cp target/release/binarytrees binarytrees
+	cp target/release/binary-trees binarytrees
 run:
 	./binarytrees ${NLEVELS}

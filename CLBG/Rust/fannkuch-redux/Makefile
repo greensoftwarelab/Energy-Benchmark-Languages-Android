@@ -1,5 +1,5 @@
 compile:
 	cargo build --release
-	cp target/release/fannkuch-redux fannkuch-redux
+	cp target/release/fannkuch-redux fannkuchredux
 run:
-	./fannkuch-redux ${FANNKUCH}
+	./fannkuchredux ${FANNKUCH}

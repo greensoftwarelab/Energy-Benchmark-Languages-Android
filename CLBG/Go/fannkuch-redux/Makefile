@@ -1,6 +1,6 @@
 compile:
-	go mod init fannkuch-redux.go
-	go build -o fannkuch-redux_run
+	go mod init fannkuchredux.go
+	go build -o fannkuchredux_run
 
 run:
-	./fannkuch-redux_run ${FANNKUCH}
+	./fannkuchredux_run ${FANNKUCH}

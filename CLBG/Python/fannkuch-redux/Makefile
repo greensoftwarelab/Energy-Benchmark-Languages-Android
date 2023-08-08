@@ -1,4 +1,4 @@
 compile:
 
 run:
-	python -OO fannkuch-redux.py ${FANNKUCH}
+	python -OO fannkuchredux.py ${FANNKUCH}

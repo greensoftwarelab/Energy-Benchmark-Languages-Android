@@ -1,4 +1,4 @@
 compile:
 
 run:
-	node fannkuch-redux.js ${FANNKUCH}
+	node fannkuchredux.js ${FANNKUCH}

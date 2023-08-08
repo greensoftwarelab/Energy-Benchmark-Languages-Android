@@ -1,5 +1,5 @@
 compile:
-	javac -d . fannkuch-redux.java
+	javac -d . fannkuchredux.java
 
 run:
-	java fannkuch-redux ${FANNKUCH}
+	java fannkuchredux ${FANNKUCH}

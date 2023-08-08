@@ -1,6 +1,6 @@
 # TODO: Check flags
 
 compile:
-	lfortran binarytrees.ifc-2.f90 -o binarytrees.ifc-2.ifc_run --fast -I/data/data/com.termux/files/usr/include/apr-1 -L lapr-1
+	lfortran fannkuchredux.f90 -o fannkuchredux_run --fast
 run:
-	./binarytrees.ifc-2.ifc_run $(NLEVELS)
+	./fannkuchredux_run $(FANNKUCH)

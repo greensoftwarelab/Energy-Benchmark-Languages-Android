@@ -2,7 +2,7 @@ FLAGS = +"{hipe, [o2]}"
 RUN_FLAGS = -smp enable -noshell -run
 
 compile:
-	erlc ${FLAGS} fannkuch-redux.erl
+	erlc ${FLAGS} fannkuchredux.erl
 
 run:
-	erl ${RUN_FLAGS} binarytrees main ${FANNKUCH}
+	erl ${RUN_FLAGS} fannkuchredux main ${FANNKUCH}

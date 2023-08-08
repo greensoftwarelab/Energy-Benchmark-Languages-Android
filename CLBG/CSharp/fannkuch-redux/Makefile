@@ -1,5 +1,5 @@
 compile:
-	cp fannkuch-redux.cs Program.cs
+	cp fannkuchredux.cs Program.cs
 	mcs Program.cs
 
 run:

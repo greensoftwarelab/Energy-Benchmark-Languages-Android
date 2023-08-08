@@ -1,4 +1,4 @@
 compile:
 	
 run:
-	racket fannkuch-redux.racket ${FANNKUCH}
+	racket fannkuchredux.racket ${FANNKUCH}

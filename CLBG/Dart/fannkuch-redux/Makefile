@@ -1,4 +1,4 @@
 compile:
 
 run:
-	dart fannkuch-redux.dart ${FANNKUCH}
+	dart fannkuchredux.dart ${FANNKUCH}

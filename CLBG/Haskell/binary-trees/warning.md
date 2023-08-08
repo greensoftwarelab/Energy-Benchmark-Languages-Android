@@ -1,1 +1,0 @@
-Used Haskell GHC #2 program, once it wasn't possible to use the previous ones due to the required libs.

@@ -1,7 +1,7 @@
 FLAGS = -Ounchecked -whole-module-optimization
 
 compile:
-	swiftc fannkuch-redux.swift ${FLAGS} -o fannkuch-redux_run
+	swiftc fannkuchredux.swift ${FLAGS} -o fannkuchredux_run
 
 run:
-	./fannkuch-redux_run ${FANNKUCH}
+	./fannkuchredux_run ${FANNKUCH}

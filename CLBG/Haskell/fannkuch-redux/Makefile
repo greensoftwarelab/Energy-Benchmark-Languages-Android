@@ -1,7 +1,5 @@
-FLAGS = --make -O2 -threaded
-
 compile:
-	ghc ${FLAGS} fannkuch-redux.hs -o fannkuch-redux_run
+	cabal build
 
 run:
-	./fannkuch-redux_run ${FANNKUCH}
+	cabal run fannkuch-redux -- ${FANNKUCH}
