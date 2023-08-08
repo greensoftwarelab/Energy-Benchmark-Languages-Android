@@ -4,4 +4,4 @@ compile:
 	g++ $(FLAGS) -o nbody_run nbody.cpp
 
 run:
-	./nbody_run $(FANNKUCH)
+	./nbody_run $(NBODY)
