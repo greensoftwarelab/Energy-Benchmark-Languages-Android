@@ -1,0 +1,1 @@
+"Function 'omp_get_thread_num' not found or not implemented yet"

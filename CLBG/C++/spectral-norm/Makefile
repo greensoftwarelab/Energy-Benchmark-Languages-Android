@@ -1,4 +1,4 @@
-FLAGS = -O2 -fopenmp
+FLAGS = -O2
 
 compile:
 	g++ $(FLAGS) -o spectralnorm_run spectralnorm.cpp
