@@ -1,0 +1,1 @@
+It's better to doesnt consider pidigits, once not all languages have solutions to this problem and there are multiple ones who require libs that we cannot install correctly under termux environment.
