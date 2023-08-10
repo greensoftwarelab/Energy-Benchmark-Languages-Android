@@ -1,1 +1,0 @@
-"Function 'getarg' not found or not implemented yet (if it is intrinsic)"

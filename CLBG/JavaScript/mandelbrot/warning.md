@@ -1,0 +1,1 @@
+Added check condition in order if the provided number of cpus is 0 to put it 1, otherwise the program will not run.

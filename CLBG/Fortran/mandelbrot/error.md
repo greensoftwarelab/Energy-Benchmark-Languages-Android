@@ -1,1 +1,0 @@
-"Variable 'int8' is not delared."

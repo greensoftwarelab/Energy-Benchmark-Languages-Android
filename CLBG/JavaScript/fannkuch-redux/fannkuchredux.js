@@ -171,7 +171,7 @@ function workerThread(n) {
 
 function threadReduce(tasks, workerData, reducer) {
   return new Promise((resolve) => {
-    const size = os.cpus().length;
+    const size = os.cpus().length ? os.cpus().length : 1;
     const workers = new Set();
     let ind = 0;
 

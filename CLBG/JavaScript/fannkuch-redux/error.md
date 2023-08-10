@@ -1,1 +1,0 @@
-Doesn't provide output and it's way too fast to be correct.

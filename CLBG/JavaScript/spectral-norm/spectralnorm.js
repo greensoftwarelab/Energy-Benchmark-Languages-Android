@@ -54,7 +54,7 @@ async function mainThread(n) {
   }
 
   function startWorkers() {
-    const cpus = os.cpus().length;
+    const cpus = os.cpus().length ? os.cpus().length : 1;
     const chunk = Math.ceil(n / cpus);
 
     for (let i = 0; i < cpus; i++) {

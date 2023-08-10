@@ -48,7 +48,7 @@ async function mainThread(size) {
 
   async function work() {
     return new Promise((resolve) => {
-      const cpus = os.cpus().length;
+      const cpus = os.cpus().length ? os.cpus().length : 1;
       let wait = 0;
       for (let i = 0; i < cpus; i++) {
         const worker = new Worker(__filename, {

@@ -1,1 +1,0 @@
-All the approaches in CLBG failed, so CLBG doesn't have this program in Lua.
