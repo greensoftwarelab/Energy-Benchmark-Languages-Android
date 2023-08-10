@@ -1,0 +1,1 @@
+"Initialisation of Complement must reduce to a compile time constant."
