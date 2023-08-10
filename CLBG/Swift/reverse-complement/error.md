@@ -1,1 +1,1 @@
-"cannot find type 'FILE' in scope"
+Can't use FILE in termux environment and there isn't another solution to this problem in swift.
