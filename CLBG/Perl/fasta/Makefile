@@ -1,4 +1,4 @@
 compile:
 
 run:
-	perl fannkuchredux.perl ${FANNKUCH}
+	perl fasta.perl ${FASTA}
